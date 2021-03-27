@@ -1,3 +1,4 @@
+
 require('dotenv').config()
 
 const {
@@ -36,6 +37,7 @@ const app = new Client()
 const config = require('./config.json')
 
 let botAPI = null
+let _bot
 
 const musicQueue = new Map()
 
@@ -43,16 +45,16 @@ const musicQueue = new Map()
 app.connect(process.env.DOGEHOUSE_TOKEN, process.env.DOGEHOUSE_REFRESH_TOKEN).then(async () => {
 
 	console.log('Bot connected')
-	app.rooms.join('b71c023b-d325-4890-be23-05862746c3bd')
+	app.rooms.join('6eecbf3a-3ec5-4220-a504-2834272d1cd5')
 	botAPI = app.bot._client.api
+
+	_bot = new BOT(app.bot)
 })
 .catch((e) => console.error(e))
 
 app.on('ready', () => {
 	console.log('Bot ready.')
-	app.bot.displayName = 'BOTjs'
 })
-.catch((e) => console.error(e))
 
 // Triggered on received message.
 app.on('newChatMessage', msg => {
@@ -62,15 +64,14 @@ app.on('newChatMessage', msg => {
 
 	// Commands
 	if (msg.content == config.prefix + 'join') return join(msg)
-	if (msg.content == config.prefix + 'mute') return botAPI.send('mute', { value: true }, null)
+	if (msg.content == config.prefix + 'mute') return _bot.mute()
 	if (msg.content == config.prefix + 'unmute') return botAPI.send('mute', { value: false }, null)
-	if (msg.content.split(' ')[0] == config.prefix + 'play') return play(msg)
+	if (msg.content.split(' ')[0] == config.prefix + 'play') return _bot.play(msg)
 
 	msg.reply('Hello stranger.')
 	
 	//app.bot.sendMessage(msg.content)
 })
-.catch((e) => console.error(e))
 
 /**
  * Triggered on user join room.
@@ -80,27 +81,10 @@ app.on('userJoinedRoom', user =>{
 	app.bot.sendMessage('Welcome ' + user.username + ' !')
 
 })
-.catch((e) => console.error(e))
 
-/**
- * Add a song to the music queue.
- * @param msg 
- * @returns 
- */
 function play(msg){
 
-	const msgContent = msg.content.split(' ')
-
-	if (!(msgContent.length > 1)) return msg.reply('Please provide a valid url to add to the play queue.')
-
-	if (app.bot.muted)
-		app.bot.unmute()
 	
-	musicQueue.set(msg.author.id, msgContent[1])
-
-	console.log(app.rooms.current)
-
-	console.log(musicQueue)
 
 	
 	
