@@ -1,0 +1,24 @@
+{
+  "name": "dogehousebotmusicv1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simonbt6/dogehousebotv1.git"
+  },
+  "author": "Simon Brisebois-Therrien",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/simonbt6/dogehousebotv1/issues"
+  },
+  "homepage": "https://github.com/simonbt6/dogehousebotv1#readme",
+  "dependencies": {
+    "dogehouse.js": "^2.0.1",
+    "dotenv": "^8.2.0",
+    "ffmpeg": "^0.0.4"
+  }
+}
